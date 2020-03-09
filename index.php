@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <?php require_once('inc/connection.php'); ?>
 <?php 
 
@@ -44,8 +45,11 @@
 
 				if(mysqli_num_rows($result_set) == 1) {
 					// valid user found
+					$user = mysqli_fetch_assoc($result_set);
+					$_SESSION['user_id'] = $user['id'];
+					$_SESSION['first_name'] = $user['first_name'];
 					//redirect to user.php
-					header('Location : users.php');
+					header('Location: users.php');
 				}
 				else {
 					$errors[] = 'Invalid Username / Password';
@@ -82,6 +86,13 @@
 					}
 
 				 ?>
+
+				 <?php 
+				 	if (isset($_GET['logout'])) {
+				 		echo '<p class="info">You have successfully Logged out from the system </p>';
+				 	}
+
+				  ?>
 
 				<p>
 					<label for="">Username:</label>
